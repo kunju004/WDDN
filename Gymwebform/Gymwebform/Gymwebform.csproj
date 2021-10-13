@@ -94,9 +94,12 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="Content\style.css" />
     <Content Include="Equipments.aspx" />
     <Content Include="Global.asax" />
     <Content Include="HomePage.aspx" />
+    <Content Include="Images\bg.jpg" />
+    <Content Include="Images\bg1.jpg" />
     <Content Include="Images\img1.png" />
     <Content Include="Images\img2.png" />
     <Content Include="Images\img3.jfif" />
@@ -152,6 +155,7 @@
     <Compile Include="MembersList.aspx.designer.cs">
       <DependentUpon>MembersList.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Models\CommonFunction.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignUp.aspx.cs">
       <DependentUpon>SignUp.aspx</DependentUpon>
@@ -208,9 +212,7 @@
       <DependentUpon>Web.config</DependentUpon>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup />
   <ItemGroup Condition="$(VisualStudioVersion) == '16.0'">
     <Reference Include="Microsoft.Data.Tools.Schema.Sql, Version=15.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
