@@ -10,7 +10,7 @@ namespace Gymwebform.Models
 {
     public class CommonFunction
     {
-       public class Common
+       public class Commonfn
         {
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString);
             public void Query(string query)
