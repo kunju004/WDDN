@@ -58,30 +58,67 @@
                 </div>
             </div>
 
-            <div class="row mb-3 mr-lg-5 ml-lg-5">
-                <div class="col-md-6">
-                    <asp:GridView ID="GridView1" runat="server" CssClass="table table-hover table-bordered" DataKeyNames="Name" AutoGenerateColumns="False" 
-                        EmptyDataText="No Records Found!" OnPageIndexChanging="GridView1_PageIndexChanging" OnRowCancelingEdit="GridView1_RowCancelingEdit" 
-                        OnRowEditing="GridView1_RowEditing" OnRowUpdating="GridView1_RowUpdating" AllowPaging="true" PageSize="4">
-                        <Columns>
-                            <asp:BoundField DataField="Sr.No." HeaderText="Sr.No." ReadOnly="True">
-                            <ItemStyle HorizontalAlign="Center" />
-                            </asp:BoundField>
-                            <asp:TemplateField HeaderText="Equipments">
-                                <EditItemTemplate>
-                                    <asp:TextBox ID="txtNameEdit" runat="server" Text='<%# Eval("Name") %>' CssClass="form-control"></asp:TextBox>
-                                </EditItemTemplate>
-                                <ItemTemplate>
-                                    <asp:Label ID="lblName" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
-                                </ItemTemplate>
-                                <ItemStyle HorizontalAlign="Center" />
-                            </asp:TemplateField>
-                            <asp:CommandField CausesValidation="False" HeaderText="Operation" ShowEditButton="True" />
-                        </Columns>
-                        <HeaderStyle BackColor="#5558C9" ForeColor="White"/>
-                    </asp:GridView>
-                </div>
-            </div>
+            <asp:GridView ID="GridView3" runat="server" AutoGenerateColumns="False" OnRowDataBound="OnRowDataBound"
+            DataKeyNames="Id" OnRowEditing="OnRowEditing" OnRowCancelingEdit="OnRowCancelingEdit" PageSize = "5" AllowPaging ="True" OnPageIndexChanging = "OnPaging"
+            OnRowUpdating="OnRowUpdating" OnRowDeleting="OnRowDeleting" EmptyDataText="No records has been added."
+            Width="100%" OnSelectedIndexChanged="GridView3_SelectedIndexChanged" CellPadding="4" ForeColor="#333333" GridLines="None">
+                             <AlternatingRowStyle BackColor="White" ForeColor="#284775" />
+            <Columns>
+                <asp:TemplateField HeaderText="Name" ItemStyle-Width="150">
+                    <ItemTemplate>
+                        <asp:Label ID="Name" runat="server" Text='<%# Eval("Name") %>'></asp:Label>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                        <asp:TextBox ID="txtname" runat="server" Text='<%# Eval("Name") %>' Width="140"></asp:TextBox>
+                    </EditItemTemplate>
+
+<ItemStyle Width="150px"></ItemStyle>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Quantity" ItemStyle-Width="150">
+                    <ItemTemplate>
+                        <asp:Label ID="quantity" runat="server" Text='<%# Eval("Quantity") %>'></asp:Label>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                        <asp:TextBox ID="txtquantity" runat="server" Text='<%# Eval("Quantity") %>' Width="140"></asp:TextBox>
+                    </EditItemTemplate>
+
+<ItemStyle Width="150px"></ItemStyle>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Muscle" ItemStyle-Width="150">
+                    <ItemTemplate>
+                        <asp:Label ID="musclefocus" runat="server" Text='<%# Eval("MuscleFocus") %>'></asp:Label>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                        <asp:TextBox ID="txtmusclefocus" runat="server" Text='<%# Eval("MuscleFocus") %>' Width="140"></asp:TextBox>
+                    </EditItemTemplate>
+
+<ItemStyle Width="150px"></ItemStyle>
+                </asp:TemplateField>
+                <asp:TemplateField HeaderText="Weight" ItemStyle-Width="150">
+                    <ItemTemplate>
+                        <asp:Label ID="weight" runat="server" Text='<%# Eval("WeightRange") %>'></asp:Label>
+                    </ItemTemplate>
+                    <EditItemTemplate>
+                        <asp:TextBox ID="txtweight" runat="server" Text='<%# Eval("WeightRange") %>' Width="140"></asp:TextBox>
+                    </EditItemTemplate>
+                    
+<ItemStyle Width="150px"></ItemStyle>
+                </asp:TemplateField>
+                <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" >
+                        <ItemStyle Width="150px"></ItemStyle>
+                </asp:CommandField>
+            </Columns>
+                             <EditRowStyle BackColor="#999999" />
+                             <FooterStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                             <HeaderStyle BackColor="#5D7B9D" Font-Bold="True" ForeColor="White" />
+                             <PagerStyle BackColor="#284775" ForeColor="White" HorizontalAlign="Center" />
+                             <RowStyle BackColor="#F7F6F3" ForeColor="#333333" />
+                             <SelectedRowStyle BackColor="#E2DED6" Font-Bold="True" ForeColor="#333333" />
+                             <SortedAscendingCellStyle BackColor="#E9E7E2" />
+                             <SortedAscendingHeaderStyle BackColor="#506C8C" />
+                             <SortedDescendingCellStyle BackColor="#FFFDF8" />
+                             <SortedDescendingHeaderStyle BackColor="#6F8DAE" />
+        </asp:GridView>
         </div>
     </div>
 </asp:Content>

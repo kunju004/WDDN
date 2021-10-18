@@ -5,105 +5,134 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-using static Gymwebform.Models.CommonFunction;
+//using static Gymwebform.Models.CommonFunction;
+using System.Configuration;
+using System.Data.SqlClient;
 
 namespace Gymwebform
 {
 	public partial class Equipments1 : System.Web.UI.Page
 	{
-        Commonfn fn = new Commonfn();
+        
 		protected void Page_Load(object sender, EventArgs e)
 		{
             if(IsPostBack)
             {
-                GetEquipments();
+                //   GetEquipments();
+                BindGrid();
             }
 		}
-
-        private void GetEquipments()
+        protected void GridView3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            DataTable dt = fn.Fetch(@"Select ROW_NUMBER() OVER(ORDER BY (SELECT 1)) as [SR.No], [Name], [Quantity], MuscleFocus, [WeightRange] 
-                                    from Equipments");
-            GridView1.DataSource = dt;
-            GridView1.DataBind();
-            
+
+        }
+
+        private void BindGrid()
+        {
+            string constr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            string query = "SELECT * FROM Equipments";
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlDataAdapter sda = new SqlDataAdapter(query, con))
+                {
+                    using (DataTable dt = new DataTable())
+                    {
+                        sda.Fill(dt);
+                        GridView3.DataSource = dt;
+                        GridView3.DataBind();
+                    }
+                }
+            }
+        }
+        protected void OnRowEditing(object sender, GridViewEditEventArgs e)
+        {
+            GridView3.EditIndex = e.NewEditIndex;
+            this.BindGrid();
+        }
+        protected void OnRowCancelingEdit(object sender, EventArgs e)
+        {
+            GridView3.EditIndex = -1;
+            this.BindGrid();
+        }
+
+        protected void OnRowUpdating(object sender, GridViewUpdateEventArgs e)
+        {
+            GridViewRow row = GridView3.Rows[e.RowIndex];
+            int Id = Convert.ToInt32(GridView3.DataKeys[e.RowIndex].Values[0]);
+            string name = (row.FindControl("txtname") as TextBox).Text;
+            string quantity = (row.FindControl("txtquantity") as TextBox).Text;
+            string musclefocus = (row.FindControl("txtmusclefocus") as TextBox).Text;
+            string weight = (row.FindControl("txtweight") as TextBox).Text;
+
+            string query = "UPDATE Equipments SET Name=@name, Quantity=@quantity, MuscleFocus=@musclefocus, WeightRange=@weight WHERE Id=@Id";
+            string constr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.Parameters.AddWithValue("@name", name);
+                    cmd.Parameters.AddWithValue("@quantity", quantity);
+                    cmd.Parameters.AddWithValue("@musclefocus", musclefocus);
+                    cmd.Parameters.AddWithValue("@weight", weight);
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+            GridView3.EditIndex = -1;
+            this.BindGrid();
+        }
+
+        protected void OnRowDeleting(object sender, GridViewDeleteEventArgs e)
+        {
+            int Id = Convert.ToInt32(GridView3.DataKeys[e.RowIndex].Values[0]);
+            string query = "DELETE FROM Equipments WHERE Id=@Id";
+            string constr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
+            using (SqlConnection con = new SqlConnection(constr))
+            {
+                using (SqlCommand cmd = new SqlCommand(query))
+                {
+                    cmd.Parameters.AddWithValue("@Id", Id);
+                    cmd.Connection = con;
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                }
+            }
+
+            this.BindGrid();
+        }
+        protected void OnRowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow && e.Row.RowIndex != GridView3.EditIndex)
+            {
+                (e.Row.Cells[4].Controls[2] as LinkButton).Attributes["onclick"] = "return confirm('Do you want to delete this row?');";
+            }
+        }
+        protected void OnPaging(object sender, GridViewPageEventArgs e)
+        {
+            GridView3.PageIndex = e.NewPageIndex;
+            this.BindGrid();
         }
 
         protected void btnAdd_Click1(object sender, EventArgs e)
         {
-            try
+            using (SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString))
             {
-                if(ddlMuscle.SelectedValue!="0")
-                {
-                    string name = txtName.Text.Trim();
-                    DataTable dt = fn.Fetch("Select * from Equipments where Name='" + name + "' ");
-                    if(dt.Rows.Count==0)
-                    {
-                        string query = "Insert into Equipments values('" + txtName.Text.Trim() + "','" + txtQuantity.Text.Trim() + "','" +
-                            ddlMuscle.Text.Trim() + "','" + txtWeight.Text.Trim() + "' ";
-                        fn.Query(query);
-                        Labelmsg.Text = "Inserted Successfully!";
-                        Labelmsg.CssClass = "alert alert-success";
-                        ddlMuscle.SelectedIndex = 0;
-                        txtName.Text = string.Empty;
-                       txtQuantity.Text = string.Empty;
-                        ddlMuscle.Text = string.Empty;
-                        txtWeight.Text = string.Empty;
-                        GetEquipments();
-                    }
-                    else
-                    {
-                        Labelmsg.Text = "Entered<b>'" + name + "'already exists!";
-                        Labelmsg.CssClass = "alert alert-danger";
-                    }
-                }
-                else
-                {
+                con.Open();
+                string query = "insert into Equipments(Name,Quantity,MuscleFocus,WeightRange)values(@name,@quantity,@musclefocus,@weightrange)";
+                SqlCommand sqlcmd = new SqlCommand(query, con);
 
-                    Labelmsg.Text = "Muscle Part is Required!";
-                    Labelmsg.CssClass = "alert alert-danger";
-                }
+                sqlcmd.Parameters.AddWithValue("@name", txtName.Text.Trim());
+                sqlcmd.Parameters.AddWithValue("@quantity", txtQuantity.Text.Trim());
+                sqlcmd.Parameters.AddWithValue("@musclefocus", ddlMuscle.Text.Trim());
+                sqlcmd.Parameters.AddWithValue("@weightrange", txtWeight.Text.Trim());
+                sqlcmd.ExecuteNonQuery();
+                con.Close();
             }
-            catch(Exception ex)
-            {
-                Response.Write("<script>alert('"+ex.Message+"');</script>");
-            }
-        }
-
-        protected void GridView1_PageIndexChanging(object sender, GridViewPageEventArgs e)
-        {
-            GridView1.PageIndex = e.NewPageIndex;
-            GetEquipments();
-        }
-
-        protected void GridView1_RowCancelingEdit(object sender, GridViewCancelEditEventArgs e)
-        {
-            GridView1.EditIndex = -1;
-            GetEquipments();
-        }
-
-        protected void GridView1_RowEditing(object sender, GridViewEditEventArgs e)
-        {
-            GridView1.EditIndex = e.NewEditIndex;
-        }
-
-        protected void GridView1_RowUpdating(object sender, GridViewUpdateEventArgs e)
-        {
-            try
-            {
-                GridViewRow row = GridView1.Rows[e.RowIndex];
-              int eqid = Convert.ToInt32(GridView1.DataKeys[e.RowIndex].Values[0]);
-                string txtName = (row.FindControl("txtClassEdit") as TextBox).Text;
-                fn.Query("Update Equipments set Name='" + txtName + "' where Name='" + eqid + "'");
-                Labelmsg.Text = "Updated Successfully!";
-                Labelmsg.CssClass = "alert alert-success";
-                GridView1.EditIndex = -1;
-                GetEquipments();
-            }
-            catch(Exception ex)
-            {
-                Response.Write("<script>alert('" + ex.Message + "');</script>");
-            }
+            BindGrid();
         }
     }
 }
