@@ -16,12 +16,11 @@ namespace Gymwebform
         
 		protected void Page_Load(object sender, EventArgs e)
 		{
-            if(IsPostBack)
+            if (!this.IsPostBack)
             {
-                //   GetEquipments();
-                BindGrid();
+                this.BindGrid();
             }
-		}
+        }
         protected void GridView3_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -59,10 +58,10 @@ namespace Gymwebform
         {
             GridViewRow row = GridView3.Rows[e.RowIndex];
             int Id = Convert.ToInt32(GridView3.DataKeys[e.RowIndex].Values[0]);
-            string name = (row.FindControl("txtname") as TextBox).Text;
-            string quantity = (row.FindControl("txtquantity") as TextBox).Text;
-            string musclefocus = (row.FindControl("txtmusclefocus") as TextBox).Text;
-            string weight = (row.FindControl("txtweight") as TextBox).Text;
+            string name = (row.FindControl("txtequipname") as TextBox).Text;
+            string quantity = (row.FindControl("txtequipquantity") as TextBox).Text;
+            string musclefocus = (row.FindControl("txtequipmusclefocus") as TextBox).Text;
+            string weight = (row.FindControl("txtequipweight") as TextBox).Text;
 
             string query = "UPDATE Equipments SET Name=@name, Quantity=@quantity, MuscleFocus=@musclefocus, WeightRange=@weight WHERE Id=@Id";
             string constr = ConfigurationManager.ConnectionStrings["ConnectionString"].ConnectionString;
