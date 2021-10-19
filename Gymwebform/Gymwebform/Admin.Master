@@ -55,7 +55,7 @@
                             StaticSubMenuIndent="9px">
                             <Items>
                                 <asp:MenuItem Text="Home" Value="Home"
-                                     NavigateUrl="~/HomePage.aspx"></asp:MenuItem>
+                                     NavigateUrl="~/Admin.aspx"></asp:MenuItem>
                                 <asp:MenuItem Text="Equipments" Value="Equipments"
                                     NavigateUrl="~/Equipments.aspx"></asp:MenuItem>
                                  <asp:MenuItem Text="Staff" Value="Staff"
