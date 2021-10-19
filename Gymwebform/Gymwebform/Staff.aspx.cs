@@ -14,10 +14,10 @@ namespace Gymwebform
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (IsPostBack)
+            if (!this.IsPostBack)
             {
                 
-                BindGrid();
+                this.BindGrid();
             }
         }
 
@@ -75,7 +75,6 @@ namespace Gymwebform
                     cmd.Parameters.AddWithValue("@age", age);
                     cmd.Parameters.AddWithValue("@experience", experience);
                     cmd.Parameters.AddWithValue("@expertise", expertise);
-
                     cmd.Connection = con;
                     con.Open();
                     cmd.ExecuteNonQuery();

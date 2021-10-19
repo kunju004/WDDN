@@ -9,7 +9,7 @@
             <div>
                 <asp:Label ID="Labelmsg" runat="server"></asp:Label>
             </div>
-            <h2 class="text-center">Add Equipments</h2>
+            <h2 class="text-center"></h2>
             <div class="row mb-3 mr-lg-5 ml-lg-5 mt-md-5">
                 <div class="col-md-6">
                     <label for="txtName"><b>Equipment Name</b></label>
@@ -104,7 +104,7 @@
                     
 <ItemStyle Width="150px"></ItemStyle>
                 </asp:TemplateField>
-                <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" ControlStyle-CssClass="btn btn-outline-dark">
+                <asp:CommandField ButtonType="Link" ShowEditButton="true" ShowDeleteButton="true" ItemStyle-Width="150" ControlStyle-CssClass="btn btn-outline-info">
                         <ItemStyle Width="150px"></ItemStyle>
                 </asp:CommandField>
             </Columns>
