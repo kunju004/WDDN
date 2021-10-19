@@ -4,7 +4,7 @@
 
 <html>
 <head runat="server">
-    <title></title>
+    <title>Gym Management System</title>
     <style>
         .all {
             background-color: green;
