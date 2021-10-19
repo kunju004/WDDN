@@ -54,10 +54,10 @@
                                     NavigateUrl="~/Equipments.aspx"></asp:MenuItem>
                                 <asp:MenuItem Text="STAFF" Value="Staff"
                                     NavigateUrl="~/Staff.aspx"></asp:MenuItem>
-                                <asp:MenuItem Text="MEMBERLIST" Value="MemberList"
+                                <asp:MenuItem Text="MEMBERS" Value="MemberList"
                                     NavigateUrl="~/MembersList.aspx"></asp:MenuItem>
-                                <asp:MenuItem Text="MemberList" Value="MemberList"
-                                    NavigateUrl="~/MembersList.aspx"></asp:MenuItem>
+                                <asp:MenuItem Text="CONTACT US" Value="MemberList"
+                                    NavigateUrl="~/About.aspx"></asp:MenuItem>
 
                             </Items>
                             <StaticHoverStyle BackColor="#E9967A" BorderColor="Black"
